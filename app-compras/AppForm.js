@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Database from './Database';
+import { Feather as Icon } from '@expo/vector-icons';
 
-  export default function AppForm({ navigation }) {
+  export default function AppForm({ route, navigation }) {
+    const id = route.params ? route.params.id : undefined;
 
     const [descricao, setDescricao] = useState(''); 
     const [quantidade, setQuantidade] = useState('');
@@ -13,9 +15,14 @@ import Database from './Database';
     function handleQuantityChange(quantidade){ setQuantidade(quantidade); }
     async function handleButtonPress(){ 
       const listItem = {descricao, quantidade: parseInt(quantidade)};
-      Database.saveItem(listItem)
+      Database.saveItem(listItem,id)
         .then(response => navigation.navigate("AppList", listItem));
     }
+    useEffect(() => {
+      if(!route.params) return;
+      setDescricao(route.params.descricao);
+      setQuantidade(route.params.quantidade.toString());
+    }, [route])
   
     return (
       <View style={styles.container}>
@@ -25,17 +32,22 @@ import Database from './Database';
             style={styles.input} 
             onChangeText={handleDescriptionChange} 
             placeholder="O que está faltando em casa?"
-            clearButtonMode="always" /> 
+            clearButtonMode="always" 
+            value={descricao}/> 
           <TextInput 
             style={styles.input} 
             onChangeText={handleQuantityChange}  
             placeholder="Digite a quantidade" 
             keyboardType={'numeric'}
-            clearButtonMode="always" /> 
+            clearButtonMode="always" 
+            value={quantidade.toString()} /> 
 
           <TouchableOpacity style={styles.button} 
           onPress={handleButtonPress}>
+            <View>
+             <Icon name="Save" color="white" size={18} />
             <Text style={styles.buttonText}>Salvar</Text> 
+            </View>
           </TouchableOpacity> 
         </View>
         <StatusBar style="light" />

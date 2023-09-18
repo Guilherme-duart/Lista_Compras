@@ -7,6 +7,7 @@ import Database from './Database';
 
 
 
+
 export default function AppList({ route, navigation }) {
 
   const [items, setItems] = useState([]);
@@ -25,7 +26,7 @@ export default function AppList({ route, navigation }) {
             style={styles.scrollContainer}
             contentContainerStyle={styles.itemsContainer}>
             { items.map(item => {
-                return <AppItem key={item.id} id={item.id} item={item.quantidade + '  de ' + item.descricao} />
+                return <AppItem key={item.id} id={item.id} item={item.quantidade + '  de ' + item.descricao} navigation={navigation}/>
             }) }
         </ScrollView>
     </View>
