@@ -19,7 +19,8 @@ export default function AppList({ route, navigation }) {
 
 
   return (
-    <View style={styles.container}>
+    <ScrollView>
+      <View style={styles.container}>
         <StatusBar style="light" />
         <Text style={styles.title}>Lista de Compras</Text>
         <ScrollView 
@@ -30,6 +31,8 @@ export default function AppList({ route, navigation }) {
             }) }
         </ScrollView>
     </View>
+    </ScrollView>
+    
     );
 
 }
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
   },
   itemsContainer: {
     flex: 1,
+    flexGrow: 1,
     marginTop: 10,
     padding: 20,
     borderTopLeftRadius: 10,
